@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/regal-entertainment-group/json-schema/regal-showtime-schema.json",
+  "title": "Showtime",
+  "description": "A movie showtime at a Regal theatre",
+  "type": "object",
+  "required": ["id", "movieId", "theatreId", "startTime", "format"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique showtime identifier"
+    },
+    "movieId": {
+      "type": "string",
+      "description": "Associated movie identifier"
+    },
+    "theatreId": {
+      "type": "string",
+      "description": "Associated theatre identifier"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Showtime start in ISO 8601 format"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["IMAX", "4DX", "RPX", "2D", "3D"],
+      "description": "Screening format"
+    },
+    "seatsAvailable": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of remaining available seats"
+    },
+    "price": {
+      "type": "object",
+      "properties": {
+        "adult": { "type": "number", "description": "Adult ticket price USD" },
+        "child": { "type": "number", "description": "Child ticket price USD" },
+        "senior": { "type": "number", "description": "Senior ticket price USD" },
+        "currency": { "type": "string", "default": "USD" }
+      }
+    },
+    "auditorium": {
+      "type": "string",
+      "description": "Auditorium or screen identifier within the theatre"
+    }
+  },
+  "additionalProperties": false
+}

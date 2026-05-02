@@ -1,0 +1,47 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.regmovies.com/v1/showtimes?movieId=mv-101&theatreId=th-005&date=2026-05-02",
+    "headers": {
+      "Ocp-Apim-Subscription-Key": "YOUR_API_KEY"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "showtimes": [
+        {
+          "id": "st-88201",
+          "movieId": "mv-101",
+          "theatreId": "th-005",
+          "startTime": "2026-05-02T14:00:00-05:00",
+          "format": "2D",
+          "seatsAvailable": 87,
+          "price": {
+            "adult": 14.50,
+            "child": 11.00,
+            "senior": 12.00,
+            "currency": "USD"
+          },
+          "auditorium": "7"
+        },
+        {
+          "id": "st-88202",
+          "movieId": "mv-101",
+          "theatreId": "th-005",
+          "startTime": "2026-05-02T17:30:00-05:00",
+          "format": "IMAX",
+          "seatsAvailable": 42,
+          "price": {
+            "adult": 22.00,
+            "child": 18.00,
+            "senior": 19.50,
+            "currency": "USD"
+          },
+          "auditorium": "IMAX 1"
+        }
+      ],
+      "total": 2
+    }
+  }
+}

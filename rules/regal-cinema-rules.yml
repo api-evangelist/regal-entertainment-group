@@ -1,0 +1,77 @@
+extends: spectral:oas
+rules:
+  regal-operation-ids-camel-case:
+    description: Operation IDs must use camelCase
+    message: "{{property}} must be camelCase (e.g., listMovies, getTheatre)"
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  regal-tags-title-case:
+    description: All tags must use Title Case
+    message: "Tag '{{value}}' must use Title Case"
+    severity: warn
+    given: "$.tags[*].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  regal-paths-kebab-case:
+    description: Path segments must use kebab-case
+    message: "Path segment in '{{property}}' must use kebab-case"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z][a-z0-9-]*(/(\\{[a-zA-Z]+\\}|[a-z][a-z0-9-]*))*)*$"
+
+  regal-v1-prefix:
+    description: All paths must be prefixed with /v1/
+    message: "Path '{{property}}' must be prefixed with /v1/"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/v1/"
+
+  regal-requires-api-key-security:
+    description: All operations must require the ApiKeyAuth security scheme
+    message: "Operation '{{property}}' must use ApiKeyAuth security"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: security
+      function: truthy
+
+  regal-operations-have-summaries:
+    description: All operations must have a summary
+    message: "Operation '{{property}}' is missing a summary"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: summary
+      function: truthy
+
+  regal-response-200-has-schema:
+    description: Successful GET responses must define a schema
+    message: "GET operation '{{property}}' 200 response must define a schema"
+    severity: warn
+    given: "$.paths[*].get.responses.200.content[*]"
+    then:
+      field: schema
+      function: truthy
+
+  regal-error-schema-defined:
+    description: Error responses must reference the Error schema
+    message: "Error response must include a schema"
+    severity: warn
+    given: "$.paths[*][*].responses[?(@property >= '400')].content[*]"
+    then:
+      field: schema
+      function: truthy

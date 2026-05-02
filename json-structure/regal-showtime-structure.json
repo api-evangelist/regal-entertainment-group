@@ -1,0 +1,16 @@
+{
+  "title": "Showtime Structure",
+  "description": "JSON structure documentation for the Regal Cinema Showtime entity",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "description": "Unique showtime identifier" },
+    { "name": "movieId", "type": "string", "required": true, "description": "Associated movie ID" },
+    { "name": "theatreId", "type": "string", "required": true, "description": "Associated theatre ID" },
+    { "name": "startTime", "type": "date-time", "required": true, "description": "Showtime start (ISO 8601)" },
+    { "name": "format", "type": "string", "required": true, "description": "IMAX, 4DX, RPX, 2D, or 3D" },
+    { "name": "seatsAvailable", "type": "integer", "required": false, "description": "Remaining available seats" },
+    { "name": "price.adult", "type": "number", "required": false, "description": "Adult ticket price USD" },
+    { "name": "price.child", "type": "number", "required": false, "description": "Child ticket price USD" },
+    { "name": "price.senior", "type": "number", "required": false, "description": "Senior ticket price USD" },
+    { "name": "auditorium", "type": "string", "required": false, "description": "Screen/auditorium identifier" }
+  ]
+}

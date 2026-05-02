@@ -1,0 +1,667 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema API
+  description: >-
+    The Regal Cinema API provides programmatic access to movie showtimes,
+    theatre information, ticketing, and loyalty reward features for Regal
+    Entertainment Group's theatre circuit. Available via the Regal API
+    Management developer portal at developer.regmovies.com, powered by Azure
+    API Management. Partners and developers must register and obtain an API
+    key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+  - url: https://api.regmovies.com/v1
+    description: Production
+tags:
+  - name: Movies
+    description: Movie catalog and metadata
+  - name: Theatres
+    description: Theatre locations and details
+  - name: Showtimes
+    description: Showtime schedules and availability
+  - name: Tickets
+    description: Ticket purchasing and reservations
+  - name: Loyalty
+    description: Regal Crown Club loyalty rewards
+paths:
+  /movies:
+    get:
+      operationId: listMovies
+      summary: List Movies
+      description: Retrieve a list of currently playing and upcoming movies.
+      tags:
+        - Movies
+      parameters:
+        - name: status
+          in: query
+          description: Filter by movie status (now_playing, upcoming, all)
+          required: false
+          schema:
+            type: string
+            enum:
+              - now_playing
+              - upcoming
+              - all
+            default: now_playing
+        - name: limit
+          in: query
+          description: Maximum number of movies to return
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          description: Pagination offset
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Movie'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /movies/{movieId}:
+    get:
+      operationId: getMovie
+      summary: Get Movie
+      description: Retrieve details for a specific movie.
+      tags:
+        - Movies
+      parameters:
+        - $ref: '#/components/parameters/MovieId'
+      responses:
+        '200':
+          description: Movie details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /theatres:
+    get:
+      operationId: listTheatres
+      summary: List Theatres
+      description: Retrieve a list of Regal theatre locations.
+      tags:
+        - Theatres
+      parameters:
+        - name: state
+          in: query
+          description: Filter by US state code (e.g. CA, NY)
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude for proximity search
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: lng
+          in: query
+          description: Longitude for proximity search
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: radius
+          in: query
+          description: Search radius in miles (used with lat/lng)
+          required: false
+          schema:
+            type: integer
+            default: 25
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of theatres
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theatres:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Theatre'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /theatres/{theatreId}:
+    get:
+      operationId: getTheatre
+      summary: Get Theatre
+      description: Retrieve details for a specific Regal theatre location.
+      tags:
+        - Theatres
+      parameters:
+        - $ref: '#/components/parameters/TheatreId'
+      responses:
+        '200':
+          description: Theatre details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theatre'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /showtimes:
+    get:
+      operationId: listShowtimes
+      summary: List Showtimes
+      description: Retrieve showtimes filtered by movie, theatre, or date.
+      tags:
+        - Showtimes
+      parameters:
+        - name: movieId
+          in: query
+          description: Filter by movie ID
+          required: false
+          schema:
+            type: string
+        - name: theatreId
+          in: query
+          description: Filter by theatre ID
+          required: false
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Date in YYYY-MM-DD format (defaults to today)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: format
+          in: query
+          description: Filter by screening format (IMAX, 4DX, RPX, 2D, 3D)
+          required: false
+          schema:
+            type: string
+            enum:
+              - IMAX
+              - 4DX
+              - RPX
+              - 2D
+              - 3D
+      responses:
+        '200':
+          description: List of showtimes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  showtimes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Showtime'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /tickets:
+    post:
+      operationId: purchaseTickets
+      summary: Purchase Tickets
+      description: Purchase tickets for a specific showtime.
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketPurchaseRequest'
+      responses:
+        '201':
+          description: Ticket purchase successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Seats no longer available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tickets/{orderId}:
+    get:
+      operationId: getTicketOrder
+      summary: Get Ticket Order
+      description: Retrieve details for a specific ticket order.
+      tags:
+        - Tickets
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ticket order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketOrder'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /loyalty/members/{memberId}:
+    get:
+      operationId: getLoyaltyMember
+      summary: Get Loyalty Member
+      description: Retrieve Regal Crown Club loyalty membership details and point balance.
+      tags:
+        - Loyalty
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Loyalty member details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyMember'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /loyalty/members/{memberId}/credits:
+    post:
+      operationId: addLoyaltyCredits
+      summary: Add Loyalty Credits
+      description: Add loyalty credits to a Regal Crown Club member account after a qualifying purchase.
+      tags:
+        - Loyalty
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+      responses:
+        '200':
+          description: Credits added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyMember'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
+    TheatreId:
+      name: theatreId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique theatre identifier
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique movie identifier
+        title:
+          type: string
+          description: Movie title
+        synopsis:
+          type: string
+          description: Movie synopsis
+        rating:
+          type: string
+          description: MPAA rating (G, PG, PG-13, R, NC-17)
+          enum:
+            - G
+            - PG
+            - PG-13
+            - R
+            - NC-17
+        runtime:
+          type: integer
+          description: Runtime in minutes
+        releaseDate:
+          type: string
+          format: date
+          description: Theatrical release date
+        genres:
+          type: array
+          items:
+            type: string
+          description: List of genres
+        poster:
+          type: string
+          format: uri
+          description: URL to movie poster image
+        trailerUrl:
+          type: string
+          format: uri
+          description: URL to movie trailer
+        cast:
+          type: array
+          items:
+            type: string
+          description: List of principal cast members
+        director:
+          type: string
+          description: Director name
+        status:
+          type: string
+          enum:
+            - now_playing
+            - upcoming
+          description: Current release status
+    Theatre:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique theatre identifier
+        name:
+          type: string
+          description: Theatre name
+        address:
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: string
+          description: Theatre phone number
+        amenities:
+          type: array
+          items:
+            type: string
+          description: Available amenities (IMAX, 4DX, RPX, VIP, bar, etc.)
+        screens:
+          type: integer
+          description: Total number of screens
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        url:
+          type: string
+          format: uri
+          description: Theatre page URL on regmovies.com
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+          default: US
+    Coordinates:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
+    Showtime:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique showtime identifier
+        movieId:
+          type: string
+          description: Associated movie ID
+        theatreId:
+          type: string
+          description: Associated theatre ID
+        startTime:
+          type: string
+          format: date-time
+          description: Showtime start (ISO 8601)
+        format:
+          type: string
+          enum:
+            - IMAX
+            - 4DX
+            - RPX
+            - 2D
+            - 3D
+          description: Screening format
+        seatsAvailable:
+          type: integer
+          description: Number of remaining seats
+        price:
+          $ref: '#/components/schemas/Price'
+        auditorium:
+          type: string
+          description: Auditorium or screen identifier
+    Price:
+      type: object
+      properties:
+        adult:
+          type: number
+          format: float
+          description: Adult ticket price in USD
+        child:
+          type: number
+          format: float
+          description: Child ticket price in USD
+        senior:
+          type: number
+          format: float
+          description: Senior ticket price in USD
+        currency:
+          type: string
+          default: USD
+    TicketPurchaseRequest:
+      type: object
+      required:
+        - showtimeId
+        - tickets
+      properties:
+        showtimeId:
+          type: string
+          description: Showtime ID to purchase tickets for
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketLineItem'
+        loyaltyMemberId:
+          type: string
+          description: Regal Crown Club member ID to earn credits
+        paymentToken:
+          type: string
+          description: Payment method token from payment processor
+    TicketLineItem:
+      type: object
+      required:
+        - type
+        - quantity
+      properties:
+        type:
+          type: string
+          enum:
+            - adult
+            - child
+            - senior
+        quantity:
+          type: integer
+          minimum: 1
+    TicketOrder:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Unique order identifier
+        showtimeId:
+          type: string
+        movieTitle:
+          type: string
+        theatreName:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketLineItem'
+        totalAmount:
+          type: number
+          format: float
+        confirmationCode:
+          type: string
+          description: Printable/scannable confirmation code
+        barcodes:
+          type: array
+          items:
+            type: string
+          description: Ticket barcodes for mobile/print tickets
+        loyaltyCreditsEarned:
+          type: integer
+          description: Loyalty credits earned from this purchase
+        createdAt:
+          type: string
+          format: date-time
+    LoyaltyMember:
+      type: object
+      properties:
+        memberId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        tier:
+          type: string
+          enum:
+            - Standard
+            - Gold
+            - Unlimited
+        creditBalance:
+          type: integer
+          description: Current Regal Crown Club credit balance
+        lifetimeCredits:
+          type: integer
+          description: Total credits earned lifetime
+        joinDate:
+          type: string
+          format: date
+    CreditRequest:
+      type: object
+      required:
+        - credits
+        - reason
+      properties:
+        credits:
+          type: integer
+          minimum: 1
+          description: Number of credits to add
+        reason:
+          type: string
+          description: Reason for credit addition (e.g., ticket purchase, promotion)
+        orderId:
+          type: string
+          description: Associated ticket order ID
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+security:
+  - ApiKeyAuth: []

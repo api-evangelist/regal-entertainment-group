@@ -1,0 +1,131 @@
+vocabulary:
+  name: Regal Entertainment Group Vocabulary
+  description: >-
+    Domain vocabulary for Regal Entertainment Group's cinema API, covering
+    movie catalog, theatre operations, ticketing, screening formats, and
+    Regal Crown Club loyalty rewards terminology.
+  version: 1.0.0
+  created: '2026-05-02'
+  modified: '2026-05-02'
+  source: https://developer.regmovies.com
+
+terms:
+  - term: Movie
+    definition: >-
+      A motion picture available in Regal's catalogue with theatrical screening rights.
+      Identified by a unique movie ID, associated with MPAA rating, runtime, release
+      date, genres, and screening status.
+    tags:
+      - Core Entity
+      - Content
+
+  - term: Theatre
+    definition: >-
+      A physical Regal Cinemas location with one or more screens. Each theatre has a
+      unique ID, street address, geographic coordinates, and may offer premium formats
+      such as IMAX, 4DX, or RPX.
+    tags:
+      - Core Entity
+      - Location
+
+  - term: Showtime
+    definition: >-
+      A scheduled screening of a specific movie at a specific theatre on a given date
+      and time. A showtime has a screening format, seat availability count, and
+      tiered ticket pricing.
+    tags:
+      - Core Entity
+      - Scheduling
+
+  - term: Screening Format
+    definition: >-
+      The technology format used for a movie showing. Regal supports 2D (standard),
+      3D, IMAX (giant screen), 4DX (motion seats with environmental effects), and
+      RPX (Regal Premium Experience with enhanced audio and screen).
+    values:
+      - IMAX
+      - 4DX
+      - RPX
+      - 2D
+      - 3D
+    tags:
+      - Enumeration
+      - Format
+
+  - term: MPAA Rating
+    definition: >-
+      The Motion Picture Association of America content rating assigned to a film
+      indicating age-appropriateness: G (General Audiences), PG (Parental Guidance
+      Suggested), PG-13, R (Restricted), NC-17.
+    values:
+      - G
+      - PG
+      - PG-13
+      - R
+      - NC-17
+    tags:
+      - Enumeration
+      - Classification
+
+  - term: Ticket Order
+    definition: >-
+      A confirmed purchase of one or more tickets for a specific showtime. Contains
+      order ID, confirmation code, barcodes for admission, and loyalty credit details.
+    tags:
+      - Core Entity
+      - Transaction
+
+  - term: Regal Crown Club
+    definition: >-
+      Regal's loyalty rewards program offering members credits for movie purchases
+      that can be redeemed for free tickets and concessions. Membership tiers include
+      Standard, Gold, and Unlimited.
+    tags:
+      - Loyalty
+      - Program
+
+  - term: Loyalty Credits
+    definition: >-
+      Points earned by Regal Crown Club members through ticket purchases and promotions.
+      Credits accumulate and can be redeemed for rewards within the Regal ecosystem.
+    tags:
+      - Loyalty
+      - Currency
+
+  - term: Loyalty Tier
+    definition: >-
+      Membership level within Regal Crown Club. Standard members earn credits per
+      purchase. Gold members enjoy additional perks. Unlimited members hold a
+      subscription for unlimited 2D screenings.
+    values:
+      - Standard
+      - Gold
+      - Unlimited
+    tags:
+      - Loyalty
+      - Enumeration
+
+  - term: Azure API Management
+    definition: >-
+      The API gateway platform used to host and manage Regal's developer API portal
+      at developer.regmovies.com. Developers obtain subscription keys through this
+      portal to authenticate API requests using the Ocp-Apim-Subscription-Key header.
+    tags:
+      - Infrastructure
+      - Authentication
+
+  - term: Ocp-Apim-Subscription-Key
+    definition: >-
+      The HTTP header used to authenticate requests to the Regal Cinema API. Obtained
+      after registering at developer.regmovies.com and subscribing to an API product.
+    tags:
+      - Authentication
+      - Header
+
+  - term: Proximity Search
+    definition: >-
+      A theatre search capability that accepts latitude and longitude coordinates plus
+      a radius in miles to return theatres within a geographic area sorted by distance.
+    tags:
+      - Feature
+      - Location

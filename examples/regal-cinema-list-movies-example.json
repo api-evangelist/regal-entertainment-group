@@ -1,0 +1,47 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.regmovies.com/v1/movies?status=now_playing&limit=2",
+    "headers": {
+      "Ocp-Apim-Subscription-Key": "YOUR_API_KEY"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "movies": [
+        {
+          "id": "mv-101",
+          "title": "The Last Frontier",
+          "synopsis": "A gripping adventure through untamed wilderness where survival means everything.",
+          "rating": "PG-13",
+          "runtime": 128,
+          "releaseDate": "2026-04-18",
+          "genres": ["Adventure", "Action"],
+          "poster": "https://cdn.regmovies.com/posters/mv-101.jpg",
+          "trailerUrl": "https://cdn.regmovies.com/trailers/mv-101.mp4",
+          "cast": ["Jane Doe", "John Smith"],
+          "director": "Alex Rivera",
+          "status": "now_playing"
+        },
+        {
+          "id": "mv-102",
+          "title": "Beyond the Stars",
+          "synopsis": "An epic journey through the cosmos challenges one crew's bonds and beliefs.",
+          "rating": "PG",
+          "runtime": 142,
+          "releaseDate": "2026-04-25",
+          "genres": ["Science Fiction", "Drama"],
+          "poster": "https://cdn.regmovies.com/posters/mv-102.jpg",
+          "trailerUrl": "https://cdn.regmovies.com/trailers/mv-102.mp4",
+          "cast": ["Maria Chen", "Carlos Ruiz"],
+          "director": "Sam Washington",
+          "status": "now_playing"
+        }
+      ],
+      "total": 24,
+      "limit": 2,
+      "offset": 0
+    }
+  }
+}

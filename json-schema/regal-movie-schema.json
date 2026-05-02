@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/regal-entertainment-group/json-schema/regal-movie-schema.json",
+  "title": "Movie",
+  "description": "A movie in the Regal Entertainment Group cinema catalog",
+  "type": "object",
+  "required": ["id", "title", "rating", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique movie identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Movie title"
+    },
+    "synopsis": {
+      "type": "string",
+      "description": "Brief movie synopsis"
+    },
+    "rating": {
+      "type": "string",
+      "enum": ["G", "PG", "PG-13", "R", "NC-17"],
+      "description": "MPAA content rating"
+    },
+    "runtime": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Runtime in minutes"
+    },
+    "releaseDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Theatrical release date (YYYY-MM-DD)"
+    },
+    "genres": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of genres"
+    },
+    "poster": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to movie poster image"
+    },
+    "trailerUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to movie trailer"
+    },
+    "cast": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Principal cast members"
+    },
+    "director": {
+      "type": "string",
+      "description": "Director name"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["now_playing", "upcoming"],
+      "description": "Current release status"
+    }
+  },
+  "additionalProperties": false
+}

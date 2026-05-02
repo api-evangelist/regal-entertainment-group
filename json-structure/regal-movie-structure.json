@@ -1,0 +1,18 @@
+{
+  "title": "Movie Structure",
+  "description": "JSON structure documentation for the Regal Cinema Movie entity",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "description": "Unique movie identifier" },
+    { "name": "title", "type": "string", "required": true, "description": "Movie title" },
+    { "name": "synopsis", "type": "string", "required": false, "description": "Brief movie synopsis" },
+    { "name": "rating", "type": "string", "required": true, "description": "MPAA rating: G, PG, PG-13, R, NC-17" },
+    { "name": "runtime", "type": "integer", "required": false, "description": "Runtime in minutes" },
+    { "name": "releaseDate", "type": "date", "required": false, "description": "Theatrical release date (YYYY-MM-DD)" },
+    { "name": "genres", "type": "array[string]", "required": false, "description": "List of genres" },
+    { "name": "poster", "type": "uri", "required": false, "description": "Movie poster image URL" },
+    { "name": "trailerUrl", "type": "uri", "required": false, "description": "Movie trailer URL" },
+    { "name": "cast", "type": "array[string]", "required": false, "description": "Principal cast members" },
+    { "name": "director", "type": "string", "required": false, "description": "Director name" },
+    { "name": "status", "type": "string", "required": true, "description": "now_playing or upcoming" }
+  ]
+}
