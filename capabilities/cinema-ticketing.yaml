@@ -1,282 +1,477 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Regal Cinema Ticketing"
-  description: >-
-    Workflow capability for discovering movies, finding nearby Regal theatres,
-    checking showtimes, and purchasing tickets with Regal Crown Club loyalty
-    integration. Designed for mobile apps, concierge services, and entertainment
-    recommendation platforms.
+  label: Regal Cinema Ticketing
+  description: Workflow capability for discovering movies, finding nearby Regal theatres, checking showtimes, and purchasing
+    tickets with Regal Crown Club loyalty integration. Designed for mobile apps, concierge services, and entertainment recommendation
+    platforms.
   tags:
-    - Cinema
-    - Movies
-    - Ticketing
-    - Showtimes
-    - Loyalty
-    - Entertainment
-  created: "2026-05-02"
-  modified: "2026-05-02"
-
+  - Cinema
+  - Movies
+  - Ticketing
+  - Showtimes
+  - Loyalty
+  - Entertainment
+  created: '2026-05-02'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      REGAL_API_KEY: REGAL_API_KEY
-
+- namespace: env
+  keys:
+    REGAL_API_KEY: REGAL_API_KEY
 capability:
   consumes:
-    - import: regal-cinema
-      location: ./shared/regal-cinema.yaml
-
+  - type: http
+    namespace: regal-cinema
+    baseUri: https://api.regmovies.com/v1
+    description: Regal Cinema API for movies, theatres, showtimes, ticketing, and loyalty
+    authentication:
+      type: apikey
+      key: Ocp-Apim-Subscription-Key
+      value: '{{REGAL_API_KEY}}'
+      placement: header
+    resources:
+    - name: movies
+      path: /movies
+      description: Movie catalog and metadata
+      operations:
+      - name: list-movies
+        method: GET
+        description: List currently playing and upcoming movies
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by movie status (now_playing, upcoming, all)
+        - name: limit
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of movies to return
+        - name: offset
+          in: query
+          type: integer
+          required: false
+          description: Pagination offset
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-movie
+        method: GET
+        description: Retrieve details for a specific movie
+        inputParameters:
+        - name: movieId
+          in: path
+          type: string
+          required: true
+          description: Unique movie identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: theatres
+      path: /theatres
+      description: Theatre locations and details
+      operations:
+      - name: list-theatres
+        method: GET
+        description: List Regal theatre locations
+        inputParameters:
+        - name: state
+          in: query
+          type: string
+          required: false
+          description: Filter by US state code
+        - name: lat
+          in: query
+          type: number
+          required: false
+          description: Latitude for proximity search
+        - name: lng
+          in: query
+          type: number
+          required: false
+          description: Longitude for proximity search
+        - name: radius
+          in: query
+          type: integer
+          required: false
+          description: Search radius in miles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-theatre
+        method: GET
+        description: Retrieve details for a specific theatre
+        inputParameters:
+        - name: theatreId
+          in: path
+          type: string
+          required: true
+          description: Unique theatre identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: showtimes
+      path: /showtimes
+      description: Showtime schedules and availability
+      operations:
+      - name: list-showtimes
+        method: GET
+        description: List showtimes filtered by movie, theatre, or date
+        inputParameters:
+        - name: movieId
+          in: query
+          type: string
+          required: false
+          description: Filter by movie ID
+        - name: theatreId
+          in: query
+          type: string
+          required: false
+          description: Filter by theatre ID
+        - name: date
+          in: query
+          type: string
+          required: false
+          description: Date in YYYY-MM-DD format
+        - name: format
+          in: query
+          type: string
+          required: false
+          description: Filter by screening format (IMAX, 4DX, RPX, 2D, 3D)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: tickets
+      path: /tickets
+      description: Ticket purchasing and order management
+      operations:
+      - name: purchase-tickets
+        method: POST
+        description: Purchase tickets for a specific showtime
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            showtimeId: '{{tools.showtimeId}}'
+            tickets: '{{tools.tickets}}'
+            loyaltyMemberId: '{{tools.loyaltyMemberId}}'
+            paymentToken: '{{tools.paymentToken}}'
+      - name: get-ticket-order
+        method: GET
+        description: Retrieve details for a specific ticket order
+        inputParameters:
+        - name: orderId
+          in: path
+          type: string
+          required: true
+          description: Order ID to retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: loyalty
+      path: /loyalty
+      description: Regal Crown Club loyalty rewards
+      operations:
+      - name: get-loyalty-member
+        method: GET
+        description: Retrieve loyalty member details and credit balance
+        inputParameters:
+        - name: memberId
+          in: path
+          type: string
+          required: true
+          description: Regal Crown Club member ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: add-loyalty-credits
+        method: POST
+        description: Add loyalty credits to a member account
+        inputParameters:
+        - name: memberId
+          in: path
+          type: string
+          required: true
+          description: Regal Crown Club member ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            credits: '{{tools.credits}}'
+            reason: '{{tools.reason}}'
+            orderId: '{{tools.orderId}}'
   exposes:
-    - type: rest
-      port: 8080
-      namespace: regal-ticketing-api
-      description: "Unified REST API for Regal cinema discovery, showtimes, and ticketing."
-      resources:
-        - path: /v1/movies
-          name: movies
-          description: Browse movies now playing and coming soon
-          operations:
-            - method: GET
-              name: list-movies
-              description: List currently playing and upcoming movies
-              call: "regal-cinema.list-movies"
-              with:
-                status: "rest.status"
-                limit: "rest.limit"
-                offset: "rest.offset"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/movies/{movieId}
-          name: movie-detail
-          description: Movie details
-          operations:
-            - method: GET
-              name: get-movie
-              description: Get details for a specific movie
-              call: "regal-cinema.get-movie"
-              with:
-                movieId: "rest.movieId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/theatres
-          name: theatres
-          description: Locate nearby Regal theatres
-          operations:
-            - method: GET
-              name: list-theatres
-              description: List theatres with optional proximity search
-              call: "regal-cinema.list-theatres"
-              with:
-                state: "rest.state"
-                lat: "rest.lat"
-                lng: "rest.lng"
-                radius: "rest.radius"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/theatres/{theatreId}
-          name: theatre-detail
-          description: Theatre details
-          operations:
-            - method: GET
-              name: get-theatre
-              description: Get details for a specific theatre
-              call: "regal-cinema.get-theatre"
-              with:
-                theatreId: "rest.theatreId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/showtimes
-          name: showtimes
-          description: Showtime schedules
-          operations:
-            - method: GET
-              name: list-showtimes
-              description: List showtimes by movie, theatre, or date
-              call: "regal-cinema.list-showtimes"
-              with:
-                movieId: "rest.movieId"
-                theatreId: "rest.theatreId"
-                date: "rest.date"
-                format: "rest.format"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/tickets
-          name: tickets
-          description: Ticket purchasing
-          operations:
-            - method: POST
-              name: purchase-tickets
-              description: Purchase tickets for a showtime
-              call: "regal-cinema.purchase-tickets"
-              with:
-                showtimeId: "rest.showtimeId"
-                tickets: "rest.tickets"
-                loyaltyMemberId: "rest.loyaltyMemberId"
-                paymentToken: "rest.paymentToken"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/tickets/{orderId}
-          name: ticket-order
-          description: Ticket order details
-          operations:
-            - method: GET
-              name: get-ticket-order
-              description: Get details for a ticket order
-              call: "regal-cinema.get-ticket-order"
-              with:
-                orderId: "rest.orderId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/loyalty/members/{memberId}
-          name: loyalty-member
-          description: Loyalty member profile
-          operations:
-            - method: GET
-              name: get-loyalty-member
-              description: Get loyalty member details and credit balance
-              call: "regal-cinema.get-loyalty-member"
-              with:
-                memberId: "rest.memberId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/loyalty/members/{memberId}/credits
-          name: loyalty-credits
-          description: Loyalty credit management
-          operations:
-            - method: POST
-              name: add-loyalty-credits
-              description: Add loyalty credits to a member account
-              call: "regal-cinema.add-loyalty-credits"
-              with:
-                memberId: "rest.memberId"
-                credits: "rest.credits"
-                reason: "rest.reason"
-                orderId: "rest.orderId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: regal-ticketing-mcp
-      transport: http
-      description: "MCP server for AI-assisted cinema discovery, showtime lookup, and ticket purchasing."
-      tools:
-        - name: list-movies
-          description: Browse movies currently playing and upcoming at Regal cinemas
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "regal-cinema.list-movies"
-          with:
-            status: "tools.status"
-            limit: "tools.limit"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-movie
-          description: Get full details for a specific movie including cast, runtime, and rating
-          hints:
-            readOnly: true
-          call: "regal-cinema.get-movie"
-          with:
-            movieId: "tools.movieId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: find-nearby-theatres
-          description: Find Regal theatre locations near a geographic coordinate or by state
-          hints:
-            readOnly: true
-            openWorld: true
-          call: "regal-cinema.list-theatres"
-          with:
-            lat: "tools.lat"
-            lng: "tools.lng"
-            radius: "tools.radius"
-            state: "tools.state"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-theatre
-          description: Get details for a specific Regal theatre including amenities and screen count
-          hints:
-            readOnly: true
-          call: "regal-cinema.get-theatre"
-          with:
-            theatreId: "tools.theatreId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-showtimes
-          description: Look up showtimes for a movie at a theatre on a given date
-          hints:
-            readOnly: true
-          call: "regal-cinema.list-showtimes"
-          with:
-            movieId: "tools.movieId"
-            theatreId: "tools.theatreId"
-            date: "tools.date"
-            format: "tools.format"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: purchase-tickets
-          description: Purchase tickets for a showtime and optionally earn Regal Crown Club credits
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: false
-          call: "regal-cinema.purchase-tickets"
-          with:
-            showtimeId: "tools.showtimeId"
-            tickets: "tools.tickets"
-            loyaltyMemberId: "tools.loyaltyMemberId"
-            paymentToken: "tools.paymentToken"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-ticket-order
-          description: Retrieve a ticket order with barcodes and confirmation code
-          hints:
-            readOnly: true
-          call: "regal-cinema.get-ticket-order"
-          with:
-            orderId: "tools.orderId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-loyalty-member
-          description: Get Regal Crown Club member status, tier, and credit balance
-          hints:
-            readOnly: true
-          call: "regal-cinema.get-loyalty-member"
-          with:
-            memberId: "tools.memberId"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: add-loyalty-credits
-          description: Award Regal Crown Club credits to a member after a qualifying purchase
-          hints:
-            readOnly: false
-            destructive: false
-            idempotent: false
-          call: "regal-cinema.add-loyalty-credits"
-          with:
-            memberId: "tools.memberId"
-            credits: "tools.credits"
-            reason: "tools.reason"
-            orderId: "tools.orderId"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: regal-ticketing-api
+    description: Unified REST API for Regal cinema discovery, showtimes, and ticketing.
+    resources:
+    - path: /v1/movies
+      name: movies
+      description: Browse movies now playing and coming soon
+      operations:
+      - method: GET
+        name: list-movies
+        description: List currently playing and upcoming movies
+        call: regal-cinema.list-movies
+        with:
+          status: rest.status
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/movies/{movieId}
+      name: movie-detail
+      description: Movie details
+      operations:
+      - method: GET
+        name: get-movie
+        description: Get details for a specific movie
+        call: regal-cinema.get-movie
+        with:
+          movieId: rest.movieId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/theatres
+      name: theatres
+      description: Locate nearby Regal theatres
+      operations:
+      - method: GET
+        name: list-theatres
+        description: List theatres with optional proximity search
+        call: regal-cinema.list-theatres
+        with:
+          state: rest.state
+          lat: rest.lat
+          lng: rest.lng
+          radius: rest.radius
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/theatres/{theatreId}
+      name: theatre-detail
+      description: Theatre details
+      operations:
+      - method: GET
+        name: get-theatre
+        description: Get details for a specific theatre
+        call: regal-cinema.get-theatre
+        with:
+          theatreId: rest.theatreId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/showtimes
+      name: showtimes
+      description: Showtime schedules
+      operations:
+      - method: GET
+        name: list-showtimes
+        description: List showtimes by movie, theatre, or date
+        call: regal-cinema.list-showtimes
+        with:
+          movieId: rest.movieId
+          theatreId: rest.theatreId
+          date: rest.date
+          format: rest.format
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/tickets
+      name: tickets
+      description: Ticket purchasing
+      operations:
+      - method: POST
+        name: purchase-tickets
+        description: Purchase tickets for a showtime
+        call: regal-cinema.purchase-tickets
+        with:
+          showtimeId: rest.showtimeId
+          tickets: rest.tickets
+          loyaltyMemberId: rest.loyaltyMemberId
+          paymentToken: rest.paymentToken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/tickets/{orderId}
+      name: ticket-order
+      description: Ticket order details
+      operations:
+      - method: GET
+        name: get-ticket-order
+        description: Get details for a ticket order
+        call: regal-cinema.get-ticket-order
+        with:
+          orderId: rest.orderId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/loyalty/members/{memberId}
+      name: loyalty-member
+      description: Loyalty member profile
+      operations:
+      - method: GET
+        name: get-loyalty-member
+        description: Get loyalty member details and credit balance
+        call: regal-cinema.get-loyalty-member
+        with:
+          memberId: rest.memberId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/loyalty/members/{memberId}/credits
+      name: loyalty-credits
+      description: Loyalty credit management
+      operations:
+      - method: POST
+        name: add-loyalty-credits
+        description: Add loyalty credits to a member account
+        call: regal-cinema.add-loyalty-credits
+        with:
+          memberId: rest.memberId
+          credits: rest.credits
+          reason: rest.reason
+          orderId: rest.orderId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: regal-ticketing-mcp
+    transport: http
+    description: MCP server for AI-assisted cinema discovery, showtime lookup, and ticket purchasing.
+    tools:
+    - name: list-movies
+      description: Browse movies currently playing and upcoming at Regal cinemas
+      hints:
+        readOnly: true
+        openWorld: true
+      call: regal-cinema.list-movies
+      with:
+        status: tools.status
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-movie
+      description: Get full details for a specific movie including cast, runtime, and rating
+      hints:
+        readOnly: true
+      call: regal-cinema.get-movie
+      with:
+        movieId: tools.movieId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: find-nearby-theatres
+      description: Find Regal theatre locations near a geographic coordinate or by state
+      hints:
+        readOnly: true
+        openWorld: true
+      call: regal-cinema.list-theatres
+      with:
+        lat: tools.lat
+        lng: tools.lng
+        radius: tools.radius
+        state: tools.state
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-theatre
+      description: Get details for a specific Regal theatre including amenities and screen count
+      hints:
+        readOnly: true
+      call: regal-cinema.get-theatre
+      with:
+        theatreId: tools.theatreId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-showtimes
+      description: Look up showtimes for a movie at a theatre on a given date
+      hints:
+        readOnly: true
+      call: regal-cinema.list-showtimes
+      with:
+        movieId: tools.movieId
+        theatreId: tools.theatreId
+        date: tools.date
+        format: tools.format
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-tickets
+      description: Purchase tickets for a showtime and optionally earn Regal Crown Club credits
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: regal-cinema.purchase-tickets
+      with:
+        showtimeId: tools.showtimeId
+        tickets: tools.tickets
+        loyaltyMemberId: tools.loyaltyMemberId
+        paymentToken: tools.paymentToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-ticket-order
+      description: Retrieve a ticket order with barcodes and confirmation code
+      hints:
+        readOnly: true
+      call: regal-cinema.get-ticket-order
+      with:
+        orderId: tools.orderId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-loyalty-member
+      description: Get Regal Crown Club member status, tier, and credit balance
+      hints:
+        readOnly: true
+      call: regal-cinema.get-loyalty-member
+      with:
+        memberId: tools.memberId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-loyalty-credits
+      description: Award Regal Crown Club credits to a member after a qualifying purchase
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: regal-cinema.add-loyalty-credits
+      with:
+        memberId: tools.memberId
+        credits: tools.credits
+        reason: tools.reason
+        orderId: tools.orderId
+      outputParameters:
+      - type: object
+        mapping: $.
