@@ -1,0 +1,123 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Regal Cinema API — Tickets
+  description: 'Regal Cinema API — Tickets. 2 operations. Lead operation: Purchase Tickets. Self-contained Naftiko capability
+    covering one Regal Entertainment Group business surface.'
+  tags:
+  - Regal Entertainment Group
+  - Tickets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    REGAL_ENTERTAINMENT_GROUP_API_KEY: REGAL_ENTERTAINMENT_GROUP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: regal-cinema-tickets
+    baseUri: https://api.regmovies.com/v1
+    description: Regal Cinema API — Tickets business capability. Self-contained, no shared references.
+    resources:
+    - name: tickets
+      path: /tickets
+      operations:
+      - name: purchasetickets
+        method: POST
+        description: Purchase Tickets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: tickets-orderId
+      path: /tickets/{orderId}
+      operations:
+      - name: getticketorder
+        method: GET
+        description: Get Ticket Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orderId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Ocp-Apim-Subscription-Key
+      value: '{{env.REGAL_ENTERTAINMENT_GROUP_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: regal-cinema-tickets-rest
+    port: 8080
+    description: REST adapter for Regal Cinema API — Tickets. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/tickets
+      name: tickets
+      description: REST surface for tickets.
+      operations:
+      - method: POST
+        name: purchasetickets
+        description: Purchase Tickets
+        call: regal-cinema-tickets.purchasetickets
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/tickets/{orderid}
+      name: tickets-orderid
+      description: REST surface for tickets-orderId.
+      operations:
+      - method: GET
+        name: getticketorder
+        description: Get Ticket Order
+        call: regal-cinema-tickets.getticketorder
+        with:
+          orderId: rest.orderId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: regal-cinema-tickets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Regal Cinema API — Tickets. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: purchase-tickets
+      description: Purchase Tickets
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: regal-cinema-tickets.purchasetickets
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-ticket-order
+      description: Get Ticket Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: regal-cinema-tickets.getticketorder
+      with:
+        orderId: tools.orderId
+      outputParameters:
+      - type: object
+        mapping: $.
