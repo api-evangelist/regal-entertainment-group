@@ -1,0 +1,279 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Regal Cinema API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Ocp-Apim-Subscription-Key",
+      "value": "{{Ocp-Apim-Subscription-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Movies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Movies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/movies",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by movie status (now_playing, upcoming, all)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of movies to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of currently playing and upcoming movies."
+        },
+        {
+          "info": {
+            "name": "Get Movie",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/movies/:movieId",
+            "params": [
+              {
+                "name": "movieId",
+                "value": "",
+                "type": "path",
+                "description": "Unique movie identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific movie."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Theatres",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Theatres",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/theatres",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter by US state code (e.g. CA, NY)"
+              },
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude for proximity search"
+              },
+              {
+                "name": "lng",
+                "value": "",
+                "type": "query",
+                "description": "Longitude for proximity search"
+              },
+              {
+                "name": "radius",
+                "value": "",
+                "type": "query",
+                "description": "Search radius in miles (used with lat/lng)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of Regal theatre locations."
+        },
+        {
+          "info": {
+            "name": "Get Theatre",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/theatres/:theatreId",
+            "params": [
+              {
+                "name": "theatreId",
+                "value": "",
+                "type": "path",
+                "description": "Unique theatre identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific Regal theatre location."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Showtimes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Showtimes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/showtimes",
+            "params": [
+              {
+                "name": "movieId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by movie ID"
+              },
+              {
+                "name": "theatreId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by theatre ID"
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Date in YYYY-MM-DD format (defaults to today)"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Filter by screening format (IMAX, 4DX, RPX, 2D, 3D)"
+              }
+            ]
+          },
+          "docs": "Retrieve showtimes filtered by movie, theatre, or date."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tickets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Purchase Tickets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.regmovies.com/v1/tickets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purchase tickets for a specific showtime."
+        },
+        {
+          "info": {
+            "name": "Get Ticket Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/tickets/:orderId",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific ticket order."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Loyalty",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Loyalty Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/loyalty/members/:memberId",
+            "params": [
+              {
+                "name": "memberId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve Regal Crown Club loyalty membership details and point balance."
+        },
+        {
+          "info": {
+            "name": "Add Loyalty Credits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.regmovies.com/v1/loyalty/members/:memberId/credits",
+            "params": [
+              {
+                "name": "memberId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add loyalty credits to a Regal Crown Club member account after a qualifying purchase."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
