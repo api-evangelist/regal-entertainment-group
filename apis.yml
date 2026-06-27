@@ -32,7 +32,7 @@ apis:
         url: https://developer.regmovies.com/apis
       - type: DeveloperPortal
         url: https://developer.regmovies.com
-      - type: SignUp
+      - type: Signup
         url: https://developer.regmovies.com/signup/
       - type: Products
         url: https://developer.regmovies.com/products
