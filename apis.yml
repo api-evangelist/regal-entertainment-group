@@ -40,6 +40,10 @@ apis:
       - FN: Regal API Manager
         email: apimanager@regalcinemas.com
 common:
+  - type: DomainSecurity
+    url: security/regal-entertainment-group-domain-security.yml
+  - type: Authentication
+    url: authentication/regal-entertainment-group-authentication.yml
   - type: Website
     url: https://www.regmovies.com
   - type: DeveloperPortal
