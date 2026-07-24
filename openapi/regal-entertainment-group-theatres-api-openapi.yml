@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema Loyalty Theatres API
+  description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+- url: https://api.regmovies.com/v1
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Theatres
+  description: Theatre locations and details
+paths:
+  /theatres:
+    get:
+      operationId: listTheatres
+      summary: List Theatres
+      description: Retrieve a list of Regal theatre locations.
+      tags:
+      - Theatres
+      parameters:
+      - name: state
+        in: query
+        description: Filter by US state code (e.g. CA, NY)
+        required: false
+        schema:
+          type: string
+      - name: lat
+        in: query
+        description: Latitude for proximity search
+        required: false
+        schema:
+          type: number
+          format: float
+      - name: lng
+        in: query
+        description: Longitude for proximity search
+        required: false
+        schema:
+          type: number
+          format: float
+      - name: radius
+        in: query
+        description: Search radius in miles (used with lat/lng)
+        required: false
+        schema:
+          type: integer
+          default: 25
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      responses:
+        '200':
+          description: List of theatres
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theatres:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Theatre'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /theatres/{theatreId}:
+    get:
+      operationId: getTheatre
+      summary: Get Theatre
+      description: Retrieve details for a specific Regal theatre location.
+      tags:
+      - Theatres
+      parameters:
+      - $ref: '#/components/parameters/TheatreId'
+      responses:
+        '200':
+          description: Theatre details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theatre'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+          default: US
+    Theatre:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique theatre identifier
+        name:
+          type: string
+          description: Theatre name
+        address:
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: string
+          description: Theatre phone number
+        amenities:
+          type: array
+          items:
+            type: string
+          description: Available amenities (IMAX, 4DX, RPX, VIP, bar, etc.)
+        screens:
+          type: integer
+          description: Total number of screens
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        url:
+          type: string
+          format: uri
+          description: Theatre page URL on regmovies.com
+    Coordinates:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    TheatreId:
+      name: theatreId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique theatre identifier
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com

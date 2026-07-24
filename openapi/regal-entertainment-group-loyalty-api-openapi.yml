@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema Loyalty API
+  description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+- url: https://api.regmovies.com/v1
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Loyalty
+  description: Regal Crown Club loyalty rewards
+paths:
+  /loyalty/members/{memberId}:
+    get:
+      operationId: getLoyaltyMember
+      summary: Get Loyalty Member
+      description: Retrieve Regal Crown Club loyalty membership details and point balance.
+      tags:
+      - Loyalty
+      parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Loyalty member details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyMember'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /loyalty/members/{memberId}/credits:
+    post:
+      operationId: addLoyaltyCredits
+      summary: Add Loyalty Credits
+      description: Add loyalty credits to a Regal Crown Club member account after a qualifying purchase.
+      tags:
+      - Loyalty
+      parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+      responses:
+        '200':
+          description: Credits added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyMember'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    LoyaltyMember:
+      type: object
+      properties:
+        memberId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        tier:
+          type: string
+          enum:
+          - Standard
+          - Gold
+          - Unlimited
+        creditBalance:
+          type: integer
+          description: Current Regal Crown Club credit balance
+        lifetimeCredits:
+          type: integer
+          description: Total credits earned lifetime
+        joinDate:
+          type: string
+          format: date
+    CreditRequest:
+      type: object
+      required:
+      - credits
+      - reason
+      properties:
+        credits:
+          type: integer
+          minimum: 1
+          description: Number of credits to add
+        reason:
+          type: string
+          description: Reason for credit addition (e.g., ticket purchase, promotion)
+        orderId:
+          type: string
+          description: Associated ticket order ID
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com

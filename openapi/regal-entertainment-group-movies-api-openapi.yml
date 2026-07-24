@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema Loyalty Movies API
+  description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+- url: https://api.regmovies.com/v1
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Movies
+  description: Movie catalog and metadata
+paths:
+  /movies:
+    get:
+      operationId: listMovies
+      summary: List Movies
+      description: Retrieve a list of currently playing and upcoming movies.
+      tags:
+      - Movies
+      parameters:
+      - name: status
+        in: query
+        description: Filter by movie status (now_playing, upcoming, all)
+        required: false
+        schema:
+          type: string
+          enum:
+          - now_playing
+          - upcoming
+          - all
+          default: now_playing
+      - name: limit
+        in: query
+        description: Maximum number of movies to return
+        required: false
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - name: offset
+        in: query
+        description: Pagination offset
+        required: false
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Movie'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /movies/{movieId}:
+    get:
+      operationId: getMovie
+      summary: Get Movie
+      description: Retrieve details for a specific movie.
+      tags:
+      - Movies
+      parameters:
+      - $ref: '#/components/parameters/MovieId'
+      responses:
+        '200':
+          description: Movie details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique movie identifier
+        title:
+          type: string
+          description: Movie title
+        synopsis:
+          type: string
+          description: Movie synopsis
+        rating:
+          type: string
+          description: MPAA rating (G, PG, PG-13, R, NC-17)
+          enum:
+          - G
+          - PG
+          - PG-13
+          - R
+          - NC-17
+        runtime:
+          type: integer
+          description: Runtime in minutes
+        releaseDate:
+          type: string
+          format: date
+          description: Theatrical release date
+        genres:
+          type: array
+          items:
+            type: string
+          description: List of genres
+        poster:
+          type: string
+          format: uri
+          description: URL to movie poster image
+        trailerUrl:
+          type: string
+          format: uri
+          description: URL to movie trailer
+        cast:
+          type: array
+          items:
+            type: string
+          description: List of principal cast members
+        director:
+          type: string
+          description: Director name
+        status:
+          type: string
+          enum:
+          - now_playing
+          - upcoming
+          description: Current release status
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com

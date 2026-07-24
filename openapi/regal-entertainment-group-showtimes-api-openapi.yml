@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema Loyalty Showtimes API
+  description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+- url: https://api.regmovies.com/v1
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Showtimes
+  description: Showtime schedules and availability
+paths:
+  /showtimes:
+    get:
+      operationId: listShowtimes
+      summary: List Showtimes
+      description: Retrieve showtimes filtered by movie, theatre, or date.
+      tags:
+      - Showtimes
+      parameters:
+      - name: movieId
+        in: query
+        description: Filter by movie ID
+        required: false
+        schema:
+          type: string
+      - name: theatreId
+        in: query
+        description: Filter by theatre ID
+        required: false
+        schema:
+          type: string
+      - name: date
+        in: query
+        description: Date in YYYY-MM-DD format (defaults to today)
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: format
+        in: query
+        description: Filter by screening format (IMAX, 4DX, RPX, 2D, 3D)
+        required: false
+        schema:
+          type: string
+          enum:
+          - IMAX
+          - 4DX
+          - RPX
+          - 2D
+          - 3D
+      responses:
+        '200':
+          description: List of showtimes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  showtimes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Showtime'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Showtime:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique showtime identifier
+        movieId:
+          type: string
+          description: Associated movie ID
+        theatreId:
+          type: string
+          description: Associated theatre ID
+        startTime:
+          type: string
+          format: date-time
+          description: Showtime start (ISO 8601)
+        format:
+          type: string
+          enum:
+          - IMAX
+          - 4DX
+          - RPX
+          - 2D
+          - 3D
+          description: Screening format
+        seatsAvailable:
+          type: integer
+          description: Number of remaining seats
+        price:
+          $ref: '#/components/schemas/Price'
+        auditorium:
+          type: string
+          description: Auditorium or screen identifier
+    Price:
+      type: object
+      properties:
+        adult:
+          type: number
+          format: float
+          description: Adult ticket price in USD
+        child:
+          type: number
+          format: float
+          description: Child ticket price in USD
+        senior:
+          type: number
+          format: float
+          description: Senior ticket price in USD
+        currency:
+          type: string
+          default: USD
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com

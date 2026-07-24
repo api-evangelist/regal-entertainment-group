@@ -1,0 +1,180 @@
+openapi: 3.0.3
+info:
+  title: Regal Cinema Loyalty Tickets API
+  description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
+  version: 1.0.0
+  contact:
+    name: Regal API Manager
+    email: apimanager@regalcinemas.com
+  termsOfService: https://developer.regmovies.com
+  x-api-id: regal-cinema-api
+  x-audience: partner
+servers:
+- url: https://api.regmovies.com/v1
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Tickets
+  description: Ticket purchasing and reservations
+paths:
+  /tickets:
+    post:
+      operationId: purchaseTickets
+      summary: Purchase Tickets
+      description: Purchase tickets for a specific showtime.
+      tags:
+      - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketPurchaseRequest'
+      responses:
+        '201':
+          description: Ticket purchase successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Seats no longer available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tickets/{orderId}:
+    get:
+      operationId: getTicketOrder
+      summary: Get Ticket Order
+      description: Retrieve details for a specific ticket order.
+      tags:
+      - Tickets
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ticket order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketOrder'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    TicketLineItem:
+      type: object
+      required:
+      - type
+      - quantity
+      properties:
+        type:
+          type: string
+          enum:
+          - adult
+          - child
+          - senior
+        quantity:
+          type: integer
+          minimum: 1
+    TicketOrder:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Unique order identifier
+        showtimeId:
+          type: string
+        movieTitle:
+          type: string
+        theatreName:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketLineItem'
+        totalAmount:
+          type: number
+          format: float
+        confirmationCode:
+          type: string
+          description: Printable/scannable confirmation code
+        barcodes:
+          type: array
+          items:
+            type: string
+          description: Ticket barcodes for mobile/print tickets
+        loyaltyCreditsEarned:
+          type: integer
+          description: Loyalty credits earned from this purchase
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+    TicketPurchaseRequest:
+      type: object
+      required:
+      - showtimeId
+      - tickets
+      properties:
+        showtimeId:
+          type: string
+          description: Showtime ID to purchase tickets for
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketLineItem'
+        loyaltyMemberId:
+          type: string
+          description: Regal Crown Club member ID to earn credits
+        paymentToken:
+          type: string
+          description: Payment method token from payment processor
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: Azure API Management subscription key from developer.regmovies.com
