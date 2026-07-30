@@ -1,4 +1,18 @@
 aid: regal-entertainment-group
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/regal-entertainment-group.png
 url: https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/apis.yml
 modified: '2026-05-19'
 description: >-
@@ -8,37 +22,96 @@ description: >-
   theatre listings, ticketing, and loyalty reward capabilities into applications. Regal was acquired by Cineworld Group
   in 2018 and continues to operate under the Regal brand.
 apis:
-  - aid: regal-entertainment-group:regal-cinema-api
-    name: Regal Cinema API
-    description: >-
-      The Regal Cinema API provides access to movie showtimes, theatre information, ticketing, and Regal Crown Club
-      loyalty reward integrations via the Regal API Management developer portal powered by Azure API Management.
-      Partners authenticate using an Ocp-Apim-Subscription-Key obtained from developer.regmovies.com.
-    humanURL: https://developer.regmovies.com
-    baseURL: https://api.regmovies.com/v1
-    tags:
-      - Cinema
-      - Movies
-      - Showtimes
-      - Ticketing
-      - Theatres
-      - Entertainment
-      - Loyalty
-    properties:
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/openapi/regal-cinema-openapi.yml
-      - type: Documentation
-        url: https://developer.regmovies.com/apis
-      - type: DeveloperPortal
-        url: https://developer.regmovies.com
-      - type: Signup
-        url: https://developer.regmovies.com/signup/
-      - type: Products
-        url: https://developer.regmovies.com/products
-    contact:
-      - FN: Regal API Manager
-        email: apimanager@regalcinemas.com
+- aid: regal-entertainment-group:regal-entertainment-group-loyalty-api
+  name: regal-entertainment-group Loyalty API
+  description: Regal Crown Club loyalty rewards
+  humanURL: https://developer.regmovies.com
+  baseURL: https://api.regmovies.com/v1
+  tags:
+  - Loyalty
+  properties:
+  - type: OpenAPI
+    url: openapi/regal-entertainment-group-loyalty-api-openapi.yml
+  - type: Documentation
+    url: https://developer.regmovies.com/apis
+  - type: DeveloperPortal
+    url: https://developer.regmovies.com
+  - type: Signup
+    url: https://developer.regmovies.com/signup/
+  - type: Products
+    url: https://developer.regmovies.com/products
+- aid: regal-entertainment-group:regal-entertainment-group-movies-api
+  name: regal-entertainment-group Movies API
+  description: Movie catalog and metadata
+  humanURL: https://developer.regmovies.com
+  baseURL: https://api.regmovies.com/v1
+  tags:
+  - Movies
+  properties:
+  - type: OpenAPI
+    url: openapi/regal-entertainment-group-movies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.regmovies.com/apis
+  - type: DeveloperPortal
+    url: https://developer.regmovies.com
+  - type: Signup
+    url: https://developer.regmovies.com/signup/
+  - type: Products
+    url: https://developer.regmovies.com/products
+- aid: regal-entertainment-group:regal-entertainment-group-showtimes-api
+  name: regal-entertainment-group Showtimes API
+  description: Showtime schedules and availability
+  humanURL: https://developer.regmovies.com
+  baseURL: https://api.regmovies.com/v1
+  tags:
+  - Showtimes
+  properties:
+  - type: OpenAPI
+    url: openapi/regal-entertainment-group-showtimes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.regmovies.com/apis
+  - type: DeveloperPortal
+    url: https://developer.regmovies.com
+  - type: Signup
+    url: https://developer.regmovies.com/signup/
+  - type: Products
+    url: https://developer.regmovies.com/products
+- aid: regal-entertainment-group:regal-entertainment-group-theatres-api
+  name: regal-entertainment-group Theatres API
+  description: Theatre locations and details
+  humanURL: https://developer.regmovies.com
+  baseURL: https://api.regmovies.com/v1
+  tags:
+  - Theatres
+  properties:
+  - type: OpenAPI
+    url: openapi/regal-entertainment-group-theatres-api-openapi.yml
+  - type: Documentation
+    url: https://developer.regmovies.com/apis
+  - type: DeveloperPortal
+    url: https://developer.regmovies.com
+  - type: Signup
+    url: https://developer.regmovies.com/signup/
+  - type: Products
+    url: https://developer.regmovies.com/products
+- aid: regal-entertainment-group:regal-entertainment-group-tickets-api
+  name: regal-entertainment-group Tickets API
+  description: Ticket purchasing and reservations
+  humanURL: https://developer.regmovies.com
+  baseURL: https://api.regmovies.com/v1
+  tags:
+  - Tickets
+  properties:
+  - type: OpenAPI
+    url: openapi/regal-entertainment-group-tickets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.regmovies.com/apis
+  - type: DeveloperPortal
+    url: https://developer.regmovies.com
+  - type: Signup
+    url: https://developer.regmovies.com/signup/
+  - type: Products
+    url: https://developer.regmovies.com/products
 common:
   - type: AgenticAccess
     url: agentic-access/regal-entertainment-group-agentic-access.yml
