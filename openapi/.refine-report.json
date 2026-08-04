@@ -1,0 +1,22 @@
+{
+  "provider": "regal-entertainment-group",
+  "sources": [
+    "regal-entertainment-group-loyalty-api-openapi.yml",
+    "regal-entertainment-group-movies-api-openapi.yml",
+    "regal-entertainment-group-showtimes-api-openapi.yml",
+    "regal-entertainment-group-theatres-api-openapi.yml",
+    "regal-entertainment-group-tickets-api-openapi.yml"
+  ],
+  "outputs": [
+    "regal-entertainment-group-loyalty-api-openapi.yml",
+    "regal-entertainment-group-movies-api-openapi.yml",
+    "regal-entertainment-group-showtimes-api-openapi.yml",
+    "regal-entertainment-group-theatres-api-openapi.yml",
+    "regal-entertainment-group-tickets-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
