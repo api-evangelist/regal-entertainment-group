@@ -1,0 +1,501 @@
+{
+  "item": [
+    {
+      "id": "073055e5-7aa1-4f57-ad6b-5ca898867346",
+      "name": "Tickets",
+      "description": {
+        "content": "Ticket purchasing and reservations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0185ffb9-b9fb-44d5-99ff-9a43921e4125",
+          "name": "Purchase Tickets",
+          "request": {
+            "name": "Purchase Tickets",
+            "description": {
+              "content": "Purchase tickets for a specific showtime.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showtimeId\": \"<string>\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"loyaltyMemberId\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eaa92f43-4c8f-4eb1-b810-f6b1124cada3",
+              "name": "Ticket purchase successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"showtimeId\": \"<string>\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"loyaltyMemberId\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderId\": \"string\",\n  \"showtimeId\": \"string\",\n  \"movieTitle\": \"string\",\n  \"theatreName\": \"string\",\n  \"startTime\": \"1963-08-06T08:25:08.381Z\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"totalAmount\": 969.5750526983348,\n  \"confirmationCode\": \"string\",\n  \"barcodes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"loyaltyCreditsEarned\": 603,\n  \"createdAt\": \"1952-06-25T17:24:58.756Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8302c280-df0f-4e8b-969c-a79374b9012e",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"showtimeId\": \"<string>\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"loyaltyMemberId\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "281516da-a334-48b2-b0a0-0fff40825d00",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"showtimeId\": \"<string>\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"loyaltyMemberId\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02261183-3870-43be-a902-59d4cf830ea5",
+              "name": "Seats no longer available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"showtimeId\": \"<string>\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"loyaltyMemberId\": \"<string>\",\n  \"paymentToken\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47d6f215-74f4-41be-a6b5-96bef3d302d1",
+          "name": "Get Ticket Order",
+          "request": {
+            "name": "Get Ticket Order",
+            "description": {
+              "content": "Retrieve details for a specific ticket order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11bae1dc-29c7-404f-9ae7-1f607b5397e4",
+              "name": "Ticket order details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderId\": \"string\",\n  \"showtimeId\": \"string\",\n  \"movieTitle\": \"string\",\n  \"theatreName\": \"string\",\n  \"startTime\": \"1954-12-11T19:54:12.810Z\",\n  \"tickets\": [\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"quantity\": \"<integer>\"\n    }\n  ],\n  \"totalAmount\": 5663.644347921429,\n  \"confirmationCode\": \"string\",\n  \"barcodes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"loyaltyCreditsEarned\": 6368,\n  \"createdAt\": \"1984-03-11T04:21:34.523Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00a8707c-368c-4eec-a5ac-31558637cbcb",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd313c8f-01a8-4ba9-abb9-eff6e14cb24a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Ocp-Apim-Subscription-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.regmovies.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Ocp-Apim-Subscription-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b8b50d09-c6be-4fd3-96c1-e60423dce82e",
+    "name": "Regal Cinema Loyalty Tickets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.\n\nContact Support:\n Name: Regal API Manager\n Email: apimanager@regalcinemas.com",
+      "type": "text/plain"
+    }
+  }
+}

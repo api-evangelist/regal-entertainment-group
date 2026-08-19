@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Regal Cinema Loyalty API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Ocp-Apim-Subscription-Key",
+      "value": "{{Ocp-Apim-Subscription-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Loyalty",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Loyalty Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/loyalty/members/:memberId",
+            "params": [
+              {
+                "name": "memberId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve Regal Crown Club loyalty membership details and point balance."
+        },
+        {
+          "info": {
+            "name": "Add Loyalty Credits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.regmovies.com/v1/loyalty/members/:memberId/credits",
+            "params": [
+              {
+                "name": "memberId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add loyalty credits to a Regal Crown Club member account after a qualifying purchase."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

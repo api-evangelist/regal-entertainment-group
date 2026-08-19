@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Regal Cinema Loyalty Movies API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Ocp-Apim-Subscription-Key",
+      "value": "{{Ocp-Apim-Subscription-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Movies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Movies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/movies",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by movie status (now_playing, upcoming, all)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of movies to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of currently playing and upcoming movies."
+        },
+        {
+          "info": {
+            "name": "Get Movie",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.regmovies.com/v1/movies/:movieId",
+            "params": [
+              {
+                "name": "movieId",
+                "value": "",
+                "type": "path",
+                "description": "Unique movie identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific movie."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
