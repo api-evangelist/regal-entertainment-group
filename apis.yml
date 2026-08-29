@@ -127,6 +127,9 @@ apis:
   - type: Products
     url: https://developer.regmovies.com/products
 common:
+  - type: CapabilityMap
+    url: capabilities/regal-entertainment-group-capability-edges.yml
+    name: Regal Entertainment Group Business Capability Map
   - type: AgenticAccess
     url: agentic-access/regal-entertainment-group-agentic-access.yml
   - type: DomainSecurity
