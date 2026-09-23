@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Regal Cinema Loyalty Movies API
+  title: Regal Cinema Movies API
   description: The Regal Cinema API provides programmatic access to movie showtimes, theatre information, ticketing, and loyalty reward features for Regal Entertainment Group's theatre circuit. Available via the Regal API Management developer portal at developer.regmovies.com, powered by Azure API Management. Partners and developers must register and obtain an API key to access the endpoints.
   version: 1.0.0
   contact:
@@ -93,14 +93,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    MovieId:
-      name: movieId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique movie identifier
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -179,6 +171,14 @@ components:
           - now_playing
           - upcoming
           description: Current release status
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

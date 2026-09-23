@@ -1,7 +1,9 @@
 ---
 title: COMPANY NEWS; REGAL, A MOVIE THEATER CHAIN, PLANS ...
 url: https://www.nytimes.com/2002/04/23/business/company-news-regal-a-movie-theater-chain-plans-a-public-offering.html
-date: '2026-05-25'
+published: '2002-04-23'
+date_basis: url-derived
+harvested: '2026-05-25'
 query: '"Regal Entertainment Group" press release artificial intelligence'
 position: 3
 source: serpapi-google

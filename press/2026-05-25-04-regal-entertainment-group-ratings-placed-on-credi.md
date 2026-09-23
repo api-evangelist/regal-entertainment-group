@@ -1,7 +1,9 @@
 ---
 title: Regal Entertainment Group Ratings Placed On Credi
 url: https://www.spglobal.com/ratings/en/regulatory/article/-/view/type/HTML/id/1366316
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Regal Entertainment Group" press release artificial intelligence'
 position: 4
 source: serpapi-google

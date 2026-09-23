@@ -1,7 +1,9 @@
 ---
 title: Entertainment Goes Mobile with Regal App - RMN Digital
 url: https://www.rmndigital.com/entertainment-goes-mobile-with-regal-app/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Regal Entertainment Group" press release artificial intelligence'
 position: 5
 source: serpapi-google
