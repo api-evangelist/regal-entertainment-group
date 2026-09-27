@@ -106,6 +106,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
   schemas:
     Error:
       type: object
@@ -171,14 +179,6 @@ components:
           - now_playing
           - upcoming
           description: Current release status
-  parameters:
-    MovieId:
-      name: movieId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique movie identifier
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

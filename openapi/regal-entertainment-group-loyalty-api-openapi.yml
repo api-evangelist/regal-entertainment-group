@@ -73,26 +73,23 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    CreditRequest:
+      type: object
+      required:
+      - credits
+      - reason
+      properties:
+        credits:
+          type: integer
+          minimum: 1
+          description: Number of credits to add
+        reason:
+          type: string
+          description: Reason for credit addition (e.g., ticket purchase, promotion)
+        orderId:
+          type: string
+          description: Associated ticket order ID
     LoyaltyMember:
       type: object
       properties:
@@ -127,22 +124,25 @@ components:
           type: string
         details:
           type: string
-    CreditRequest:
-      type: object
-      required:
-      - credits
-      - reason
-      properties:
-        credits:
-          type: integer
-          minimum: 1
-          description: Number of credits to add
-        reason:
-          type: string
-          description: Reason for credit addition (e.g., ticket purchase, promotion)
-        orderId:
-          type: string
-          description: Associated ticket order ID
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

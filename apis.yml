@@ -115,6 +115,8 @@ apis:
   humanURL: https://developer.regmovies.com
   baseURL: https://api.regmovies.com/v1
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI
