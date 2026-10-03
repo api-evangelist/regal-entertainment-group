@@ -93,37 +93,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    MovieId:
-      name: movieId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique movie identifier
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
     Movie:
       type: object
       properties:
@@ -179,6 +149,36 @@ components:
           - now_playing
           - upcoming
           description: Current release status
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

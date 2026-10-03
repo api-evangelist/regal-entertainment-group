@@ -75,6 +75,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
     Price:
       type: object
       properties:
@@ -126,15 +135,6 @@ components:
         auditorium:
           type: string
           description: Auditorium or screen identifier
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key

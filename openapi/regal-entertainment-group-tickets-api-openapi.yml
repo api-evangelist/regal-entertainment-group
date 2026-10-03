@@ -74,6 +74,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -86,32 +92,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    TicketPurchaseRequest:
+    Error:
       type: object
-      required:
-      - showtimeId
-      - tickets
       properties:
-        showtimeId:
+        code:
           type: string
-          description: Showtime ID to purchase tickets for
-        tickets:
-          type: array
-          items:
-            $ref: '#/components/schemas/TicketLineItem'
-        loyaltyMemberId:
+        message:
           type: string
-          description: Regal Crown Club member ID to earn credits
-        paymentToken:
+        details:
           type: string
-          description: Payment method token from payment processor
     TicketLineItem:
       type: object
       required:
@@ -127,15 +117,6 @@ components:
         quantity:
           type: integer
           minimum: 1
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
     TicketOrder:
       type: object
       properties:
@@ -172,6 +153,25 @@ components:
         createdAt:
           type: string
           format: date-time
+    TicketPurchaseRequest:
+      type: object
+      required:
+      - showtimeId
+      - tickets
+      properties:
+        showtimeId:
+          type: string
+          description: Showtime ID to purchase tickets for
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketLineItem'
+        loyaltyMemberId:
+          type: string
+          description: Regal Crown Club member ID to earn credits
+        paymentToken:
+          type: string
+          description: Payment method token from payment processor
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
