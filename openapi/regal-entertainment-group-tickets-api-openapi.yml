@@ -73,50 +73,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
-    TicketLineItem:
-      type: object
-      required:
-      - type
-      - quantity
-      properties:
-        type:
-          type: string
-          enum:
-          - adult
-          - child
-          - senior
-        quantity:
-          type: integer
-          minimum: 1
     TicketOrder:
       type: object
       properties:
@@ -153,6 +110,30 @@ components:
         createdAt:
           type: string
           format: date-time
+    TicketLineItem:
+      type: object
+      required:
+      - type
+      - quantity
+      properties:
+        type:
+          type: string
+          enum:
+          - adult
+          - child
+          - senior
+        quantity:
+          type: integer
+          minimum: 1
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
     TicketPurchaseRequest:
       type: object
       required:
@@ -172,6 +153,25 @@ components:
         paymentToken:
           type: string
           description: Payment method token from payment processor
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -75,33 +75,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
-    Price:
-      type: object
-      properties:
-        adult:
-          type: number
-          format: float
-          description: Adult ticket price in USD
-        child:
-          type: number
-          format: float
-          description: Child ticket price in USD
-        senior:
-          type: number
-          format: float
-          description: Senior ticket price in USD
-        currency:
-          type: string
-          default: USD
     Showtime:
       type: object
       properties:
@@ -135,6 +108,33 @@ components:
         auditorium:
           type: string
           description: Auditorium or screen identifier
+    Price:
+      type: object
+      properties:
+        adult:
+          type: number
+          format: float
+          description: Adult ticket price in USD
+        child:
+          type: number
+          format: float
+          description: Child ticket price in USD
+        senior:
+          type: number
+          format: float
+          description: Senior ticket price in USD
+        currency:
+          type: string
+          default: USD
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key
