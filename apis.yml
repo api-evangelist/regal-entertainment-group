@@ -130,6 +130,12 @@ apis:
   - type: Products
     url: https://developer.regmovies.com/products
 common:
+  - type: Plans
+    url: plans/regal-entertainment-group-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/regal-entertainment-group-rate-limits.yml
+  - type: FinOps
+    url: finops/regal-entertainment-group-finops.yml
   - type: CapabilityMap
     url: capabilities/regal-entertainment-group-capability-edges.yml
     name: Regal Entertainment Group Business Capability Map
