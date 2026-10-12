@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/regal-entertainment-group/integrations
+- https://n8n.io/integrations/regal-entertainment-group/
+- https://composio.dev/toolkits/regal-entertainment-group
+- https://monid.ai/tools/regal-entertainment-group
+checked:
+- https://composio.dev/toolkits/regal-entertainment-group
+- https://monid.ai/tools/regal-entertainment-group
+- https://n8n.io/integrations/regal-entertainment-group/
+- https://zapier.com/apps/regal-entertainment-group/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
