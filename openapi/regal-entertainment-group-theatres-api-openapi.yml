@@ -97,15 +97,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Coordinates:
+    Error:
       type: object
       properties:
-        lat:
-          type: number
-          format: float
-        lng:
-          type: number
-          format: float
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
     Theatre:
       type: object
       properties:
@@ -134,15 +134,15 @@ components:
           type: string
           format: uri
           description: Theatre page URL on regmovies.com
-    Error:
+    Coordinates:
       type: object
       properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: string
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
     Address:
       type: object
       properties:
@@ -157,6 +157,14 @@ components:
         country:
           type: string
           default: US
+  parameters:
+    TheatreId:
+      name: theatreId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique theatre identifier
   responses:
     NotFound:
       description: Resource not found
@@ -170,14 +178,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    TheatreId:
-      name: theatreId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique theatre identifier
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

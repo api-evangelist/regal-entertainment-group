@@ -158,14 +158,6 @@ components:
           type: string
         details:
           type: string
-  parameters:
-    MovieId:
-      name: movieId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique movie identifier
   responses:
     NotFound:
       description: Resource not found
@@ -179,6 +171,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    MovieId:
+      name: movieId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique movie identifier
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

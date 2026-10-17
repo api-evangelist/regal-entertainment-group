@@ -74,22 +74,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    CreditRequest:
+    Error:
       type: object
-      required:
-      - credits
-      - reason
       properties:
-        credits:
-          type: integer
-          minimum: 1
-          description: Number of credits to add
-        reason:
+        code:
           type: string
-          description: Reason for credit addition (e.g., ticket purchase, promotion)
-        orderId:
+        message:
           type: string
-          description: Associated ticket order ID
+        details:
+          type: string
     LoyaltyMember:
       type: object
       properties:
@@ -115,22 +108,23 @@ components:
         joinDate:
           type: string
           format: date
-    Error:
+    CreditRequest:
       type: object
+      required:
+      - credits
+      - reason
       properties:
-        code:
+        credits:
+          type: integer
+          minimum: 1
+          description: Number of credits to add
+        reason:
           type: string
-        message:
+          description: Reason for credit addition (e.g., ticket purchase, promotion)
+        orderId:
           type: string
-        details:
-          type: string
+          description: Associated ticket order ID
   responses:
-    BadRequest:
-      description: Invalid request parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
       content:
@@ -139,6 +133,12 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request parameters
       content:
         application/json:
           schema:
