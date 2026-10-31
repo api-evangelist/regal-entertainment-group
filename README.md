@@ -1,4 +1,4 @@
-# regal-entertainment-group (regal-entertainment-group)
+# Regal Entertainment Group
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,56 +66,161 @@
 
 Regal Entertainment Group operates one of the largest motion picture theatre circuits in the United States, with theatres located in densely populated metropolitan markets. Regal provides a developer API portal at developer.regmovies.com, built on Azure API Management, enabling partners and developers to integrate movie showtimes, theatre listings, ticketing, and loyalty reward capabilities into applications. Regal was acquired by Cineworld Group in 2018 and continues to operate under the Regal brand.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/apis.yml)
+**Areas:** Cinema · Entertainment · Movies · Ticketing · Loyalty · Theatre · Fortune 500
 
-## Tags
+## Regal Entertainment Group on APIs.io
 
-- Cinema
-- Entertainment
-- Movies
-- Ticketing
-- Loyalty
-- Theatre
-- Fortune 500
+Everything profiled for Regal Entertainment Group is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/regal-entertainment-group/](https://apis.io/providers/regal-entertainment-group/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Modified:** 2026-05-19
+- [regal-entertainment-group Loyalty API](https://apis.io/apis/regal-entertainment-group/regal-entertainment-group-loyalty-api/) — Regal Crown Club loyalty rewards
+- [regal-entertainment-group Movies API](https://apis.io/apis/regal-entertainment-group/regal-entertainment-group-movies-api/) — Movie catalog and metadata
+- [regal-entertainment-group Showtimes API](https://apis.io/apis/regal-entertainment-group/regal-entertainment-group-showtimes-api/) — Showtime schedules and availability
+- [regal-entertainment-group Theatres API](https://apis.io/apis/regal-entertainment-group/regal-entertainment-group-theatres-api/) — Theatre locations and details
+- [regal-entertainment-group Tickets API](https://apis.io/apis/regal-entertainment-group/regal-entertainment-group-tickets-api/) — Ticket purchasing and reservations
 
-## APIs
+### Published properties
 
-### Regal Cinema API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The Regal Cinema API provides access to movie showtimes, theatre information, ticketing, and Regal Crown Club loyalty reward integrations via the Regal API Management developer portal powered by Azure API Management. Partners authenticate using an Ocp-Apim-Subscription-Key obtained from developer.regmovies.com.
+#### Agentic access (1)
 
-- **Human URL:** [https://developer.regmovies.com](https://developer.regmovies.com)
-- **Base URL:** `https://api.regmovies.com/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Regal Entertainment Group Agentic Access](https://apis.io/agentic-access/regal-entertainment-group/regal-entertainment-group-agentic-access/)
 
-- Cinema
-- Movies
-- Showtimes
-- Ticketing
-- Theatres
-- Entertainment
-- Loyalty
+#### JSON Schema (2)
 
-#### Properties
+The data models the API reads and writes.
 
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/openapi/regal-cinema-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.regmovies.com/apis)
-- [Developer Portal](https://developer.regmovies.com)
-- [Sign Up](https://developer.regmovies.com/signup/)
-- [Products](https://developer.regmovies.com/products)
-- [Postman Collection](collections/regal-cinema.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/regal-cinema.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Movie](https://apis.io/schemas/regal-entertainment-group/regal-movie/)
+- [Showtime](https://apis.io/schemas/regal-entertainment-group/regal-showtime/)
 
-## Common Properties
+#### JSON Structure (2)
+
+Data models expressed in JSON Structure.
+
+- [Regal Movie Structure](https://apis.io/json-structure/regal-entertainment-group/regal-movie-structure/)
+- [Regal Showtime Structure](https://apis.io/json-structure/regal-entertainment-group/regal-showtime-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Regal Entertainment Group Context](https://apis.io/jsonld/regal-entertainment-group/regal-entertainment-group-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Regal Entertainment Group Vocabulary](https://apis.io/vocabularies/regal-entertainment-group/regal-entertainment-group-vocabulary/)
+
+#### Examples (2)
+
+Example requests and responses.
+
+- [Regal Cinema List Movies Example](https://apis.io/examples/regal-entertainment-group/regal-cinema-list-movies-example/)
+- [Regal Cinema List Showtimes Example](https://apis.io/examples/regal-entertainment-group/regal-cinema-list-showtimes-example/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [Regal Cinema API](https://apis.io/collections/regal-entertainment-group/open-regal-cinema/)
+- [Regal Cinema Loyalty API](https://apis.io/collections/regal-entertainment-group/open-regal-entertainment-group-loyalty-api/)
+- [Regal Cinema Loyalty Movies API](https://apis.io/collections/regal-entertainment-group/open-regal-entertainment-group-movies-api/)
+- [Regal Cinema Loyalty Showtimes API](https://apis.io/collections/regal-entertainment-group/open-regal-entertainment-group-showtimes-api/)
+- [Regal Cinema Loyalty Theatres API](https://apis.io/collections/regal-entertainment-group/open-regal-entertainment-group-theatres-api/)
+- [Regal Cinema Loyalty Tickets API](https://apis.io/collections/regal-entertainment-group/open-regal-entertainment-group-tickets-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Regal Entertainment Group — regal cinema rules](https://apis.io/rules/regal-entertainment-group/regal-cinema-rules/)
+- [Regal Entertainment Group — jsonschema rules](https://apis.io/rules/regal-entertainment-group/regal-entertainment-group-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Regal Entertainment Group Authentication](https://apis.io/security/regal-entertainment-group/regal-entertainment-group-authentication/)
+- [Regal Entertainment Group Domain Security](https://apis.io/security/regal-entertainment-group/regal-entertainment-group-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Regal Entertainment Group Plans Pricing](https://apis.io/plans/regal-entertainment-group/regal-entertainment-group-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Regal Entertainment Group Rate Limits](https://apis.io/rate-limits/regal-entertainment-group/regal-entertainment-group-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Regal Entertainment Group Finops](https://apis.io/finops/regal-entertainment-group/regal-entertainment-group-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.regmovies.com)
-- [Developer Portal](https://developer.regmovies.com)
-- [LinkedIn](https://www.linkedin.com/company/regal-entertainment-group)
-- [Twitter](https://x.com/regalmovies)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/openapi/regal-cinema-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Vocabulary](https://raw.githubusercontent.com/api-evangelist/regal-entertainment-group/refs/heads/main/vocabulary/regal-entertainment-group-vocabulary.yml)
+
+## API Evangelist rating
+
+**Kin Score 33.3** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 60.7 |
+| Contract quality | 55.6 |
+| Contract governance | 27.3 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 18.4 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/regal-entertainment-group/](https://apis.io/providers/regal-entertainment-group/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Regal Entertainment Group: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/regal-entertainment-group/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
